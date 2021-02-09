@@ -1,73 +1,79 @@
-import { Ionicons } from '@expo/vector-icons';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
-import * as React from 'react';
+import {Ionicons} from "@expo/vector-icons"
+import {createBottomTabNavigator} from "@react-navigation/bottom-tabs"
+import {createStackNavigator} from "@react-navigation/stack"
+import * as React from "react"
 
-import Colors from '../constants/Colors';
-import useColorScheme from '../hooks/useColorScheme';
-import TabOneScreen from '../screens/TabOneScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
-import { BottomTabParamList, HomeParamList, GameParamList } from '../types';
+import Colors from "../constants/Colors"
+import useColorScheme from "../hooks/useColorScheme"
+import HomeScreen from "../screens/HomeScreen"
+import GameScreen from "../screens/GameScreen"
+import {BottomTabParamList, HomeParamList, GameParamList} from "../types"
 
-const BottomTab = createBottomTabNavigator<BottomTabParamList>();
+const BottomTab = createBottomTabNavigator<BottomTabParamList>()
 
 export default function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme()
 
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
+      tabBarOptions={{activeTintColor: Colors[colorScheme].tint}}
+    >
       <BottomTab.Screen
         name="Home"
-        component={TabOneNavigator}
+        component={HomeNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({color}) => <TabBarIcon name="md-home" color={color} />,
         }}
       />
       <BottomTab.Screen
         name="Game"
-        component={TabTwoNavigator}
+        component={GameNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({color}) => (
+            <TabBarIcon name="md-game-controller" color={color} />
+          ),
         }}
       />
     </BottomTab.Navigator>
-  );
+  )
 }
 
 // You can explore the built-in icon families and icons on the web at:
 // https://icons.expo.fyi/
-function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']; color: string }) {
-  return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
+function TabBarIcon(props: {
+  name: React.ComponentProps<typeof Ionicons>["name"]
+  color: string
+}) {
+  return <Ionicons size={30} style={{marginBottom: -3}} {...props} />
 }
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const TabOneStack = createStackNavigator<HomeParamList>();
+const TabOneStack = createStackNavigator<HomeParamList>()
 
-function TabOneNavigator() {
+function HomeNavigator() {
   return (
     <TabOneStack.Navigator>
       <TabOneStack.Screen
         name="HomeScreen"
-        component={TabOneScreen}
-        options={{ headerTitle: 'Home' }}
+        component={HomeScreen}
+        options={{headerTitle: "Home"}}
       />
     </TabOneStack.Navigator>
-  );
+  )
 }
 
-const TabTwoStack = createStackNavigator<GameParamList>();
+const TabTwoStack = createStackNavigator<GameParamList>()
 
-function TabTwoNavigator() {
+function GameNavigator() {
   return (
     <TabTwoStack.Navigator>
       <TabTwoStack.Screen
         name="GameScreen"
-        component={TabTwoScreen}
-        options={{ headerTitle: 'Game' }}
+        component={GameScreen}
+        options={{headerTitle: "Game"}}
       />
     </TabTwoStack.Navigator>
-  );
+  )
 }
