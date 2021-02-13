@@ -1,9 +1,16 @@
 import React, {useState, useEffect, ChangeEvent} from "react"
-import {Text, H1, Button, Input} from "native-base"
+import {
+  View,
+  KeyboardEvent,
+  NativeSyntheticEvent,
+  TextInputEndEditingEventData,
+} from "react-native"
+import {AntDesign} from "@expo/vector-icons"
+import {Text, H1, Button, Form, Item, Input, CardItem, Body} from "native-base"
+import {Grid, Col} from "react-native-easy-grid"
 import axios, {AxiosError} from "axios"
 import Section from "../components/Section"
-import {Grid, Col} from "react-native-easy-grid"
-import {View} from "react-native"
+import {ScrollView} from "react-native-gesture-handler"
 
 const randomJPString = (wordCount: number) => {
   const JP =
@@ -20,10 +27,10 @@ const wait = (sec: number) =>
   })
 
 const GameScreen: React.FC = () => (
-  <>
+  <ScrollView>
     <Screen />
     <Description />
-  </>
+  </ScrollView>
 )
 interface IGameInfo {
   gameInfo: {
@@ -63,19 +70,23 @@ const GameInfo: React.FC<IGameInfo> = ({
 )
 const Description = () => (
   <Section title="遊び方">
-    <Text>
-      1. ランダムな文字列が提示されます。その文字列を記憶しましょう。 例)
-      リワード 2.
-      記憶した文字列を、反対から読み返しましょう。(メモなどはしないでください)
-      例) ドーワリ 3.
-      提示された文字列を逆から読み返したものをAnswerの中に回答しましょう。 例)
-      回答はドーワリ
-    </Text>
+    <CardItem>
+      <Body>
+        <Text>
+          {`1. ランダムな文字列が提示されます。その文字列を記憶しましょう。
+例)リワード
+2. 記憶した文字列を、反対から読み返しましょう。
+例) ドーワリ 
+3. 提示された文字列を逆から読み返したものをAnswerの中に回答しましょう。
+例) 回答はドーワリ`}
+        </Text>
+      </Body>
+    </CardItem>
   </Section>
 )
 
 const Screen = () => {
-  const SUCESS = "Success!"
+  const SUCCESS = "Success!"
   const FAIL = "Fail..."
   const [screenState, setScreenState] = useState<
     "start" | "question" | "answer" | "end"
@@ -84,32 +95,30 @@ const Screen = () => {
   const [wordCount, setWordCount] = useState(2)
   const [screenString, setScreenString] = useState("PushStart")
   const [answerString, setAnswerString] = useState("")
-  const [submitString, setSubmitString] = useState("")
   //const currentUser = useSelector(selectCurrentUser)
   const currentUser = null
+  const headers = null
   //const headers = useSelector(selectHeaders)
   const handleIncrement = () => setWordCount(wordCount + 1)
   const handleDecrement = () => setWordCount(wordCount - 1)
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
-    setSubmitString(e.target.value)
-  const handleAnswer = (e: KeyboardEvent) => {
-    //if (e.key === "Enter") {
-    //let result
-    //if (submitString === answerString) {
-    //result = "success"
-    //setScreenString(SUCESS)
-    //} else {
-    //result = "fail"
-    //setScreenString(FAIL)
-    //}
-    //if (currentUser && headers) {
-    //axios
-    //.put("/user/reword", {count: wordCount, result}, headers)
-    //.then(res => setGameInfo(res.data))
-    //.catch((err: AxiosError) => err)
-    //}
-    //setScreenState("end")
-    //}
+  const handleAnswer = (
+    e: NativeSyntheticEvent<TextInputEndEditingEventData>
+  ) => {
+    let result
+    if (e.nativeEvent.text === answerString) {
+      result = "success"
+      setScreenString(SUCCESS)
+    } else {
+      result = "fail"
+      setScreenString(FAIL)
+    }
+    if (currentUser && headers) {
+      axios
+        .put("/user/reword", {count: wordCount, result}, headers || {}) // TODO: remove ||
+        .then(res => setGameInfo(res.data))
+        .catch((err: AxiosError) => err)
+    }
+    setScreenState("end")
   }
   const handleQuestion = async () => {
     setScreenState("question")
@@ -134,53 +143,44 @@ const Screen = () => {
   return (
     <>
       {currentUser?.id && <GameInfo gameInfo={gameInfo} />}
-      <Section title="Reword">
-        <View
+      <View style={{height: 300, alignItems: "center"}}>
+        <H1
           style={{
-            height: 350,
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
+            color:
+              // eslint-disable-next-line no-nested-ternary
+              screenString === SUCCESS
+                ? "blue"
+                : screenString === FAIL
+                ? "red"
+                : "black",
           }}
         >
-          <H1
-            style={{
-              color:
-                // eslint-disable-next-line no-nested-ternary
-                screenString === SUCESS
-                  ? "primary"
-                  : screenString === FAIL
-                  ? "secondary"
-                  : "initial",
-            }}
-          >
-            {screenString}
-          </H1>
-        </View>
-        {(screenState === "start" || screenState === "end") && (
-          <View style={{textAlign: "center"}}>
-            <Button disabled={wordCount >= 10} onPress={handleIncrement}>
-              <Text>+</Text>
-            </Button>
-            <Button>
-              <Text>{wordCount}</Text>
-            </Button>
-            <Button disabled={wordCount <= 2} onPress={handleDecrement}>
-              <Text>-</Text>
-            </Button>
-            <Button onPress={handleQuestion}>
-              <Text>START</Text>
+          {screenString}
+        </H1>
+      </View>
+      {(screenState === "start" || screenState === "end") && (
+        <>
+          <H1 style={{textAlign: "center"}}>{wordCount}</H1>
+          <View style={{marginBottom: 5}}>
+            <Button block disabled={wordCount >= 10} onPress={handleIncrement}>
+              <AntDesign name="plus" size={24} color="white" />
             </Button>
           </View>
-        )}
-        {screenState === "answer" && (
-          <Input
-            placeholder="Answer"
-            onChange={handleChange}
-            onKeyDown={handleAnswer}
-          />
-        )}
-      </Section>
+          <View style={{marginBottom: 10}}>
+            <Button block disabled={wordCount <= 2} onPress={handleDecrement}>
+              <AntDesign name="minus" size={24} color="white" />
+            </Button>
+          </View>
+          <Button block onPress={handleQuestion}>
+            <Text>START</Text>
+          </Button>
+        </>
+      )}
+      {screenState === "answer" && (
+        <Item>
+          <Input placeholder="Answer" onEndEditing={handleAnswer} />
+        </Item>
+      )}
     </>
   )
 }
