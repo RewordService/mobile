@@ -1,16 +1,17 @@
-import React, {useState, useEffect, ChangeEvent} from "react"
+import React, {useState, useEffect} from "react"
+import {ScrollView} from "react-native-gesture-handler"
 import {
   View,
-  KeyboardEvent,
   NativeSyntheticEvent,
   TextInputEndEditingEventData,
 } from "react-native"
+import {useSelector} from "react-redux"
 import {AntDesign} from "@expo/vector-icons"
 import {Text, H1, Button, Form, Item, Input, CardItem, Body} from "native-base"
 import {Grid, Col} from "react-native-easy-grid"
 import axios, {AxiosError} from "axios"
 import Section from "../components/Section"
-import {ScrollView} from "react-native-gesture-handler"
+import {selectCurrentUser, selectHeaders} from "../slices/currentUser"
 
 const randomJPString = (wordCount: number) => {
   const JP =
@@ -95,12 +96,22 @@ const Screen = () => {
   const [wordCount, setWordCount] = useState(2)
   const [screenString, setScreenString] = useState("PushStart")
   const [answerString, setAnswerString] = useState("")
-  //const currentUser = useSelector(selectCurrentUser)
-  const currentUser = null
-  const headers = null
-  //const headers = useSelector(selectHeaders)
+  const currentUser = useSelector(selectCurrentUser)
+  const headers = useSelector(selectHeaders)
   const handleIncrement = () => setWordCount(wordCount + 1)
   const handleDecrement = () => setWordCount(wordCount - 1)
+  const handleQuestion = async () => {
+    setScreenState("question")
+    const JPString = randomJPString(wordCount)
+    for (let i = 0; i < JPString.length; i += 1) {
+      setScreenString(JPString[i])
+      // eslint-disable-next-line no-await-in-loop
+      await wait(0.8)
+    }
+    setScreenString("")
+    setAnswerString(JPString.reverse().join(""))
+    setScreenState("answer")
+  }
   const handleAnswer = (
     e: NativeSyntheticEvent<TextInputEndEditingEventData>
   ) => {
@@ -114,31 +125,19 @@ const Screen = () => {
     }
     if (currentUser && headers) {
       axios
-        .put("/user/reword", {count: wordCount, result}, headers || {}) // TODO: remove ||
+        .put("/user/reword", {count: wordCount, result}, headers)
         .then(res => setGameInfo(res.data))
         .catch((err: AxiosError) => err)
     }
     setScreenState("end")
   }
-  const handleQuestion = async () => {
-    setScreenState("question")
-    const JPString = randomJPString(wordCount)
-    for (let i = 0; i < JPString.length; i += 1) {
-      setScreenString(JPString[i])
-      // eslint-disable-next-line no-await-in-loop
-      await wait(0.8)
-    }
-    setScreenString("")
-    setAnswerString(JPString.reverse().join(""))
-    setScreenState("answer")
-  }
-  //useEffect(() => {
-  //if (!headers) return
-  //axios
-  //.get("/user/reword", headers)
-  //.then(res => setGameInfo(res.data))
-  //.catch((err: AxiosError) => err)
-  //}, [headers])
+  useEffect(() => {
+    if (!headers) return
+    axios
+      .get("/user/reword", headers)
+      .then(res => setGameInfo(res.data))
+      .catch((err: AxiosError) => err)
+  }, [headers])
 
   return (
     <>

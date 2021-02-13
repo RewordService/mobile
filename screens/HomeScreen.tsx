@@ -3,10 +3,10 @@ import {Linking, View} from "react-native"
 import axios from "axios"
 import {Col, Grid} from "react-native-easy-grid"
 import {Content, Text, H1, Button, CardItem, Body, H3} from "native-base"
+import {useNavigation} from "@react-navigation/native"
 import Section from "../components/Section"
 import UserLists from "../components/Home/UserLists"
 import News from "../components/Home/News"
-import {useNavigation} from "@react-navigation/native"
 
 const HomeScreen = () => {
   const [latestUsers, setLatestUsers] = useState([])

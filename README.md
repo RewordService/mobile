@@ -7,3 +7,5 @@
 - [native-base](https://github.com/GeekyAnts/NativeBase)
 - [react-native-easy-grid](https://github.com/GeekyAnts/react-native-easy-grid)
 - [react-native-chart-kit](https://github.com/indiespirit/react-native-chart-kit)
+- [react-redux](https://github.com/reduxjs/react-redux)
+- [react-persist](https://github.com/jaredpalmer/react-persist)
