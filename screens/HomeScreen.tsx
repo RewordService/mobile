@@ -6,36 +6,14 @@ import {Content, Text, H1, Button, CardItem, Body, H3} from "native-base"
 import Section from "../components/Section"
 import UserLists from "../components/Home/UserLists"
 import News from "../components/Home/News"
+import {useNavigation} from "@react-navigation/native"
 
 const HomeScreen = () => {
-  return (
-    <Content>
-      <RewordInfo />
-    </Content>
-  )
-}
-
-const RewordInfo = () => {
-  const [score, setScore] = useState({total_score: 0, success_rate: 0})
   const [latestUsers, setLatestUsers] = useState([])
   const [rankedUsers, setRankedUsers] = useState([])
   const [lodaingLatestUsers, setLoadingLatestUsers] = useState(true)
   const [lodaingRankedtUsers, setLoadingRankedUsers] = useState(true)
-  const handlePressTwitter = () => {
-    const appURL = "twitter://user?screen_name=re_reword"
-    const httpURL = "https://twitter.com/re_reword"
-    Linking.canOpenURL(appURL).then(supported =>
-      Linking.openURL(supported ? appURL : httpURL)
-    )
-  }
-
   useEffect(() => {
-    axios
-      .get("/reword/info")
-      .then(res => {
-        setScore(res.data)
-      })
-      .catch(err => console.log(err))
     axios
       .get("/users/latest")
       .then(res => {
@@ -50,6 +28,59 @@ const RewordInfo = () => {
         setRankedUsers(res.data.slice(0, 10))
       })
       .catch(err => err)
+  }, [])
+  return (
+    <Content>
+      <RewordInfo />
+      <ButtonGroup />
+      <News />
+      <UserLists
+        loading={lodaingRankedtUsers}
+        title="ランキング"
+        users={rankedUsers}
+      />
+      <UserLists
+        loading={lodaingLatestUsers}
+        title="新規ユーザー"
+        users={latestUsers}
+      />
+    </Content>
+  )
+}
+const ButtonGroup = () => {
+  const navigation = useNavigation()
+  const handlePress = () => navigation.navigate("Game")
+  const handlePressTwitter = () => {
+    const appURL = "twitter://user?screen_name=re_reword"
+    const httpURL = "https://twitter.com/re_reword"
+    Linking.canOpenURL(appURL).then(supported =>
+      Linking.openURL(supported ? appURL : httpURL)
+    )
+  }
+  return (
+    <>
+      <View style={{marginBottom: 5}}>
+        <Button block onPress={handlePress}>
+          <Text>Play Game</Text>
+        </Button>
+      </View>
+      <Button block info onPress={handlePressTwitter}>
+        <Text>Twitter</Text>
+      </Button>
+    </>
+  )
+}
+
+const RewordInfo = () => {
+  const [score, setScore] = useState({total_score: 0, success_rate: 0})
+
+  useEffect(() => {
+    axios
+      .get("/reword/info")
+      .then(res => {
+        setScore(res.data)
+      })
+      .catch(err => console.log(err))
   }, [])
 
   return (
@@ -84,25 +115,6 @@ const RewordInfo = () => {
           </Body>
         </CardItem>
       </Section>
-      <View style={{marginBottom: 5}}>
-        <Button block>
-          <Text>Play Game</Text>
-        </Button>
-      </View>
-      <Button block info onPress={handlePressTwitter}>
-        <Text>Twitter</Text>
-      </Button>
-      <News />
-      <UserLists
-        loading={lodaingRankedtUsers}
-        title="ランキング"
-        users={rankedUsers}
-      />
-      <UserLists
-        loading={lodaingLatestUsers}
-        title="新規ユーザー"
-        users={latestUsers}
-      />
     </>
   )
 }
