@@ -8,6 +8,8 @@ import * as React from "react"
 import {ColorSchemeName} from "react-native"
 
 import NotFoundScreen from "../screens/NotFoundScreen"
+import SignInScreen from "../screens/SignInScreen"
+import SignUpScreen from "../screens/SignUpScreen"
 import {RootStackParamList} from "../types"
 import BottomTabNavigator from "./BottomTabNavigator"
 import LinkingConfiguration from "./LinkingConfiguration"
@@ -36,6 +38,16 @@ function RootNavigator() {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="Root" component={BottomTabNavigator} />
+      <Stack.Screen
+        name="SignIn"
+        component={SignInScreen}
+        options={{title: "SignIn"}}
+      />
+      <Stack.Screen
+        name="SignUp"
+        component={SignUpScreen}
+        options={{title: "SignUp"}}
+      />
       <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}

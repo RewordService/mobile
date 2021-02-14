@@ -7,7 +7,15 @@ import Colors from "../constants/Colors"
 import useColorScheme from "../hooks/useColorScheme"
 import HomeScreen from "../screens/HomeScreen"
 import GameScreen from "../screens/GameScreen"
-import {BottomTabParamList, HomeParamList, GameParamList} from "../types"
+import UserScreen from "../screens/UserScreen"
+import {
+  BottomTabParamList,
+  HomeParamList,
+  GameParamList,
+  SettingParamList,
+  UserParamList,
+} from "../types"
+import SettingScreen from "../screens/SettingScreen"
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>()
 
@@ -35,6 +43,24 @@ export default function BottomTabNavigator() {
           ),
         }}
       />
+      <BottomTab.Screen
+        name="User"
+        component={UserNavigator}
+        options={{
+          tabBarIcon: ({color}) => (
+            <TabBarIcon name="person-circle" color={color} />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="Setting"
+        component={SettingNavigator}
+        options={{
+          tabBarIcon: ({color}) => (
+            <TabBarIcon name="md-settings-sharp" color={color} />
+          ),
+        }}
+      />
     </BottomTab.Navigator>
   )
 }
@@ -50,30 +76,58 @@ function TabBarIcon(props: {
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const TabOneStack = createStackNavigator<HomeParamList>()
+const HomeStack = createStackNavigator<HomeParamList>()
 
 function HomeNavigator() {
   return (
-    <TabOneStack.Navigator>
-      <TabOneStack.Screen
+    <HomeStack.Navigator>
+      <HomeStack.Screen
         name="HomeScreen"
         component={HomeScreen}
         options={{headerTitle: "Home"}}
       />
-    </TabOneStack.Navigator>
+    </HomeStack.Navigator>
   )
 }
 
-const TabTwoStack = createStackNavigator<GameParamList>()
+const UserStack = createStackNavigator<UserParamList>()
+
+function UserNavigator() {
+  return (
+    <UserStack.Navigator>
+      <UserStack.Screen
+        name="UserScreen"
+        component={UserScreen}
+        options={{headerTitle: "User"}}
+      />
+    </UserStack.Navigator>
+  )
+}
+
+const GameStack = createStackNavigator<GameParamList>()
 
 function GameNavigator() {
   return (
-    <TabTwoStack.Navigator>
-      <TabTwoStack.Screen
+    <GameStack.Navigator>
+      <GameStack.Screen
         name="GameScreen"
         component={GameScreen}
         options={{headerTitle: "Game"}}
       />
-    </TabTwoStack.Navigator>
+    </GameStack.Navigator>
+  )
+}
+
+const SettingStack = createStackNavigator<SettingParamList>()
+
+function SettingNavigator() {
+  return (
+    <SettingStack.Navigator>
+      <SettingStack.Screen
+        name="SettingScreen"
+        component={SettingScreen}
+        options={{headerTitle: "Setting"}}
+      />
+    </SettingStack.Navigator>
   )
 }

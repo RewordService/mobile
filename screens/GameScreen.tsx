@@ -7,7 +7,7 @@ import {
 } from "react-native"
 import {useSelector} from "react-redux"
 import {AntDesign} from "@expo/vector-icons"
-import {Text, H1, Button, Form, Item, Input, CardItem, Body} from "native-base"
+import {Text, H1, Button, Item, Input, CardItem, Body, Card} from "native-base"
 import {Grid, Col} from "react-native-easy-grid"
 import axios, {AxiosError} from "axios"
 import Section from "../components/Section"
@@ -140,47 +140,60 @@ const Screen = () => {
   }, [headers])
 
   return (
-    <>
-      {currentUser?.id && <GameInfo gameInfo={gameInfo} />}
-      <View style={{height: 300, alignItems: "center"}}>
-        <H1
+    <Card>
+      <View style={{margin: 10}}>
+        {currentUser?.id && <GameInfo gameInfo={gameInfo} />}
+        <View
           style={{
-            color:
-              // eslint-disable-next-line no-nested-ternary
-              screenString === SUCCESS
-                ? "blue"
-                : screenString === FAIL
-                ? "red"
-                : "black",
+            height: 250,
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
-          {screenString}
-        </H1>
+          <Text
+            style={{
+              fontSize: 50,
+              color:
+                // eslint-disable-next-line no-nested-ternary
+                screenString === SUCCESS
+                  ? "blue"
+                  : screenString === FAIL
+                  ? "red"
+                  : "black",
+            }}
+          >
+            {screenString}
+          </Text>
+        </View>
+        {(screenState === "start" || screenState === "end") && (
+          <>
+            <H1 style={{textAlign: "center"}}>{wordCount}</H1>
+            <View style={{marginBottom: 5}}>
+              <Button
+                block
+                disabled={wordCount >= 10}
+                onPress={handleIncrement}
+              >
+                <AntDesign name="plus" size={24} color="white" />
+              </Button>
+            </View>
+            <View style={{marginBottom: 10}}>
+              <Button block disabled={wordCount <= 2} onPress={handleDecrement}>
+                <AntDesign name="minus" size={24} color="white" />
+              </Button>
+            </View>
+            <Button block onPress={handleQuestion}>
+              <Text>START</Text>
+            </Button>
+          </>
+        )}
+        {screenState === "answer" && (
+          <Item>
+            <Input placeholder="Answer" onEndEditing={handleAnswer} />
+          </Item>
+        )}
       </View>
-      {(screenState === "start" || screenState === "end") && (
-        <>
-          <H1 style={{textAlign: "center"}}>{wordCount}</H1>
-          <View style={{marginBottom: 5}}>
-            <Button block disabled={wordCount >= 10} onPress={handleIncrement}>
-              <AntDesign name="plus" size={24} color="white" />
-            </Button>
-          </View>
-          <View style={{marginBottom: 10}}>
-            <Button block disabled={wordCount <= 2} onPress={handleDecrement}>
-              <AntDesign name="minus" size={24} color="white" />
-            </Button>
-          </View>
-          <Button block onPress={handleQuestion}>
-            <Text>START</Text>
-          </Button>
-        </>
-      )}
-      {screenState === "answer" && (
-        <Item>
-          <Input placeholder="Answer" onEndEditing={handleAnswer} />
-        </Item>
-      )}
-    </>
+    </Card>
   )
 }
 

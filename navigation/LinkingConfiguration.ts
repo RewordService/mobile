@@ -16,6 +16,11 @@ export default {
               GameScreen: "game",
             },
           },
+          User: {
+            screens: {
+              UserScreen: "user",
+            },
+          },
         },
       },
       NotFound: "*",

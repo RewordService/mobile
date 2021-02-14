@@ -1,5 +1,8 @@
 # REWORD MOBILE
 
+- [BACK](https://github.com/izszzz/reword_back)
+- [FRONT](https://github.com/izszzz/reword_front)
+
 ## Packages
 
 - [date-fns](https://github.com/date-fns/date-fns)
