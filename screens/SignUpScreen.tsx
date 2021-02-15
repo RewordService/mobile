@@ -76,9 +76,10 @@ const SignUpScreen = () => {
                 <Item floatingLabel error={invalid}>
                   <Label>Email</Label>
                   <Input
+                    textContentType="emailAddress"
                     ref={ref}
                     value={value}
-                    onChangeText={text => onChange(text)}
+                    onChangeText={onChange}
                     disabled={loading}
                   />
                   {invalid ? <Icon name="close-circle" /> : null}
@@ -97,7 +98,7 @@ const SignUpScreen = () => {
                   <Input
                     ref={ref}
                     value={value}
-                    onChangeText={text => onChange(text)}
+                    onChangeText={onChange}
                     disabled={loading}
                   />
                   {invalid ? <Icon name="close-circle" /> : null}
@@ -114,9 +115,10 @@ const SignUpScreen = () => {
                 <Item floatingLabel error={invalid}>
                   <Label>password</Label>
                   <Input
+                    textContentType="password"
                     ref={ref}
                     value={value}
-                    onChangeText={text => onChange(text)}
+                    onChangeText={onChange}
                     disabled={loading}
                   />
                   {invalid ? <Icon name="close-circle" /> : null}
@@ -135,7 +137,7 @@ const SignUpScreen = () => {
                   <Input
                     ref={ref}
                     value={value}
-                    onChangeText={text => onChange(text)}
+                    onChangeText={onChange}
                     disabled={loading}
                   />
                   {invalid ? <Icon name="close-circle" /> : null}

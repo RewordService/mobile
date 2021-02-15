@@ -84,38 +84,36 @@ const RewordInfo = () => {
   }, [])
 
   return (
-    <>
-      <Section title="Reword">
-        <CardItem>
-          <Body>
-            <Grid>
-              <Col>
-                <View
-                  style={{
-                    paddingTop: 20,
-                    borderRightWidth: 1,
-                    borderRightColor: "#999999",
-                  }}
-                >
-                  <Text style={{textAlign: "center"}}>総合Reword数</Text>
-                  <H1 style={{textAlign: "center"}}>{score.total_score}</H1>
-                </View>
-              </Col>
-              <Col>
-                <View
-                  style={{
-                    paddingTop: 20,
-                  }}
-                >
-                  <Text style={{textAlign: "center"}}>総合正答率</Text>
-                  <H1 style={{textAlign: "center"}}>{score.success_rate}%</H1>
-                </View>
-              </Col>
-            </Grid>
-          </Body>
-        </CardItem>
-      </Section>
-    </>
+    <Section title="Reword">
+      <CardItem>
+        <Body>
+          <Grid>
+            <Col>
+              <View
+                style={{
+                  paddingTop: 20,
+                  borderRightWidth: 1,
+                  borderRightColor: "#999999",
+                }}
+              >
+                <Text style={{textAlign: "center"}}>総合Reword数</Text>
+                <H1 style={{textAlign: "center"}}>{score.total_score}</H1>
+              </View>
+            </Col>
+            <Col>
+              <View
+                style={{
+                  paddingTop: 20,
+                }}
+              >
+                <Text style={{textAlign: "center"}}>総合正答率</Text>
+                <H1 style={{textAlign: "center"}}>{score.success_rate}%</H1>
+              </View>
+            </Col>
+          </Grid>
+        </Body>
+      </CardItem>
+    </Section>
   )
 }
 

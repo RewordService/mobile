@@ -50,6 +50,7 @@ const GameInfo: React.FC<IGameInfo> = ({
             paddingTop: 20,
             borderRightWidth: 1,
             borderRightColor: "#999999",
+            alignItems: "center",
           }}
         >
           <Text>順位</Text>
@@ -60,6 +61,7 @@ const GameInfo: React.FC<IGameInfo> = ({
         <View
           style={{
             paddingTop: 20,
+            alignItems: "center",
           }}
         >
           <Text>スコア</Text>
@@ -140,60 +142,66 @@ const Screen = () => {
   }, [headers])
 
   return (
-    <Card>
-      <View style={{margin: 10}}>
-        {currentUser?.id && <GameInfo gameInfo={gameInfo} />}
-        <View
-          style={{
-            height: 250,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Text
+    <>
+      {currentUser?.id && <GameInfo gameInfo={gameInfo} />}
+      <Card>
+        <View style={{margin: 10}}>
+          <View
             style={{
-              fontSize: 50,
-              color:
-                // eslint-disable-next-line no-nested-ternary
-                screenString === SUCCESS
-                  ? "blue"
-                  : screenString === FAIL
-                  ? "red"
-                  : "black",
+              height: 250,
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            {screenString}
-          </Text>
+            <Text
+              style={{
+                fontSize: 50,
+                color:
+                  // eslint-disable-next-line no-nested-ternary
+                  screenString === SUCCESS
+                    ? "blue"
+                    : screenString === FAIL
+                    ? "red"
+                    : "black",
+              }}
+            >
+              {screenString}
+            </Text>
+          </View>
+          {(screenState === "start" || screenState === "end") && (
+            <>
+              <H1 style={{textAlign: "center"}}>{wordCount}</H1>
+              <View style={{marginBottom: 5}}>
+                <Button
+                  block
+                  disabled={wordCount >= 10}
+                  onPress={handleIncrement}
+                >
+                  <AntDesign name="plus" size={24} color="white" />
+                </Button>
+              </View>
+              <View style={{marginBottom: 10}}>
+                <Button
+                  block
+                  disabled={wordCount <= 2}
+                  onPress={handleDecrement}
+                >
+                  <AntDesign name="minus" size={24} color="white" />
+                </Button>
+              </View>
+              <Button block onPress={handleQuestion}>
+                <Text>START</Text>
+              </Button>
+            </>
+          )}
+          {screenState === "answer" && (
+            <Item>
+              <Input placeholder="Answer" onEndEditing={handleAnswer} />
+            </Item>
+          )}
         </View>
-        {(screenState === "start" || screenState === "end") && (
-          <>
-            <H1 style={{textAlign: "center"}}>{wordCount}</H1>
-            <View style={{marginBottom: 5}}>
-              <Button
-                block
-                disabled={wordCount >= 10}
-                onPress={handleIncrement}
-              >
-                <AntDesign name="plus" size={24} color="white" />
-              </Button>
-            </View>
-            <View style={{marginBottom: 10}}>
-              <Button block disabled={wordCount <= 2} onPress={handleDecrement}>
-                <AntDesign name="minus" size={24} color="white" />
-              </Button>
-            </View>
-            <Button block onPress={handleQuestion}>
-              <Text>START</Text>
-            </Button>
-          </>
-        )}
-        {screenState === "answer" && (
-          <Item>
-            <Input placeholder="Answer" onEndEditing={handleAnswer} />
-          </Item>
-        )}
-      </View>
-    </Card>
+      </Card>
+    </>
   )
 }
 

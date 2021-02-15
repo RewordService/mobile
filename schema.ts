@@ -10,5 +10,18 @@ const signUpSchema = yup.object().shape({
   password: yup.string().required(),
   passwordConfirmation: yup.string().oneOf([yup.ref("password"), null]),
 })
+const profileSchema = yup.object().shape({
+  name: yup.string().required(),
+  introduction: yup.string().required(),
+  gender: yup.number(),
+  birthday: yup.date(),
+})
+const emailSchema = yup.object().shape({
+  email: yup.string().email(),
+})
+const passwordSchema = yup.object().shape({
+  password: yup.string().required(),
+  passwordConfirmation: yup.string().oneOf([yup.ref("password"), null]),
+})
 
-export {signInSchema, signUpSchema}
+export {signInSchema, signUpSchema, profileSchema, emailSchema, passwordSchema}

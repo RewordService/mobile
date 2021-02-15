@@ -11,6 +11,7 @@ import {
   H3,
   View,
   Spinner,
+  Thumbnail,
 } from "native-base"
 import React from "react"
 import {useEffect} from "react"
@@ -40,12 +41,12 @@ const UserScreen = () => {
   const height = 300
   const width = Dimensions.get("window").width
   const chartConfig = {
-    backgroundGradientFrom: "#757ce8",
-    backgroundGradientTo: "#79bac1",
+    backgroundGradientFrom: "white",
+    backgroundGradientTo: "white",
     backgroundGradientFromOpacity: 0.5,
     strokeWidth: 2,
     barPercentage: 0.6,
-    color: () => `white`,
+    color: () => `#79bac1`,
     style: {
       borderRadius: 13,
     },
@@ -106,6 +107,9 @@ const UserScreen = () => {
     <>
       {!currentUser ? <SignScreen /> : null}
       <ScrollView>
+        <View style={{marginVertical: 20, alignItems: "center"}}>
+          <Thumbnail large source={{uri: user.image.url || ""}} />
+        </View>
         <Section title="プロフィール">
           <CardItem>
             <Body>

@@ -75,9 +75,10 @@ const SignInScreen = () => {
                 <Item floatingLabel error={invalid}>
                   <Label>Email</Label>
                   <Input
+                    textContentType="emailAddress"
                     ref={ref}
                     value={value}
-                    onChangeText={text => onChange(text)}
+                    onChangeText={onChange}
                     disabled={loading}
                   />
                   {invalid ? <Icon name="close-circle" /> : null}
@@ -93,9 +94,10 @@ const SignInScreen = () => {
                 <Item floatingLabel error={invalid}>
                   <Label>Password</Label>
                   <Input
+                    textContentType="password"
                     ref={ref}
                     value={value}
-                    onChangeText={text => onChange(text)}
+                    onChangeText={onChange}
                     disabled={loading}
                   />
                   {invalid ? <Icon name="close-circle" /> : null}
