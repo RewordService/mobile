@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^12.0.0",
+    "@hookform/resolvers": "^1.3.4",
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "5.11.2",
@@ -32,6 +33,7 @@
     "native-base": "^2.15.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-hook-form": "^6.15.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
     "react-native-chart-kit": "^6.11.0",
     "react-native-easy-grid": "^0.2.2",
@@ -42,7 +44,8 @@
     "react-native-web": "~0.13.12",
     "react-redux": "^7.2.2",
     "redux-logger": "^3.0.6",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "yup": "^0.32.8"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

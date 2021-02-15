@@ -12,14 +12,14 @@ import Navigation from "./navigation"
 
 switch (process.env.NODE_ENV) {
   case "development":
-    //axios.defaults.baseURL = "http://localhost:3000"
-    axios.defaults.baseURL = "https://reword-back.herokuapp.com/"
+    //axios.defaults.baseURL = "http://localhost:3000/api"
+    axios.defaults.baseURL = "https://reword-web.herokuapp.com/api"
     break
   case "production":
-    axios.defaults.baseURL = "https://reword-back.herokuapp.com/"
+    axios.defaults.baseURL = "https://reword-web.herokuapp.com/api"
     break
   default:
-    axios.defaults.baseURL = "http://localhost:3000"
+    axios.defaults.baseURL = "http://localhost:3000/api"
 }
 export default function App() {
   const [loadingFont, setLoadingFont] = useState(true)
