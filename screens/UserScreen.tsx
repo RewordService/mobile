@@ -155,7 +155,7 @@ const UserScreen = () => {
                     >
                       <Text style={{textAlign: "center"}}>トータルスコア</Text>
                       <H3 style={{textAlign: "center"}}>
-                        {user.reword?.total}
+                        {user.reword?.score}
                       </H3>
                     </View>
                   </Col>
