@@ -17,7 +17,7 @@ const profileSchema = yup.object().shape({
   birthday: yup.date(),
 })
 const emailSchema = yup.object().shape({
-  email: yup.string().email(),
+  email: yup.string().email().required(),
 })
 const passwordSchema = yup.object().shape({
   password: yup.string().required(),

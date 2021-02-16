@@ -24,7 +24,8 @@
         "foregroundImage": "./assets/images/reword.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.izszzz.rewordmobile"
+      "package": "com.izszzz.rewordmobile",
+      "permissions": ["CAMERA", "READ_EXTERNAL_STORAGE"]
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
